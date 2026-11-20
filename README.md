@@ -9,6 +9,21 @@ which of the sentence's sounds still arrive.
 
 The page: [research/blur.html](https://jaysoma.dev/research/blur.html), built from this repo's step 7.
 
+## The blur value
+
+As a phone's speech recogniser listens, it writes words (its partial results), leaning on its language model. A
+decoder with no language model writes down the sounds that actually arrived. **Blur** is the share of the consonants
+in the phone's words that the plain decoder never heard in the same audio:
+
+```
+blur = 1 - (consonants in the phone's words that were heard) / (consonants in the phone's words)
+```
+
+0% means everything the phone wrote really arrived. On the CMU takes at 1 m (ten people, one take each per angle):
+facing the device, 0-44%, seven of the ten at 11% or less; back turned, 42-83%. It needs no reference recording and
+no known sentence: the phone's own words are the reference. Computed at every partial in step 6 (`scripts/06_gap.py`;
+the words' consonants come from their spelling, `blur/spelling.py`).
+
 ## What it shows
 
 - **Turning away costs consonants, and it follows the turn.** At 1 m the decoder misses about a fifth of the sentence's
